@@ -33,5 +33,103 @@
     "createdAt": "2025-08-14T07:45:50.838Z",
     "expiresAt": "2025-08-15T07:45:50.838Z",
     "active": false
+  },
+  {
+    "id": "sess_1755160164102_238bji6tq",
+    "userId": "ofis-1",
+    "createdAt": "2025-08-14T08:29:24.102Z",
+    "expiresAt": "2025-08-15T08:29:24.102Z",
+    "active": false
+  },
+  {
+    "id": "sess_1755160178791_jfh72zwo2",
+    "userId": "admin-1",
+    "createdAt": "2025-08-14T08:29:38.791Z",
+    "expiresAt": "2025-08-15T08:29:38.791Z",
+    "active": true
+  },
+  {
+    "id": "sess_1755160415362_1ho5esdn3",
+    "userId": "admin-1",
+    "createdAt": "2025-08-14T08:33:35.362Z",
+    "expiresAt": "2025-08-15T08:33:35.362Z",
+    "active": true
+  },
+  {
+    "id": "sess_1755160704113_vva96vjnt",
+    "userId": "admin-1",
+    "createdAt": "2025-08-14T08:38:24.113Z",
+    "expiresAt": "2025-08-15T08:38:24.113Z",
+    "active": true
+  },
+  {
+    "id": "sess_1755160810604_hkdqzzfh7",
+    "userId": "uye-1",
+    "createdAt": "2025-08-14T08:40:10.604Z",
+    "expiresAt": "2025-08-15T08:40:10.604Z",
+    "active": true
+  },
+  {
+    "id": "sess_1755160972370_aij1wgb8c",
+    "userId": "admin-1",
+    "createdAt": "2025-08-14T08:42:52.370Z",
+    "expiresAt": "2025-08-15T08:42:52.370Z",
+    "active": true
+  },
+  {
+    "id": "sess_1755160993950_gvxowq7ig",
+    "userId": "basvuran-1",
+    "createdAt": "2025-08-14T08:43:13.950Z",
+    "expiresAt": "2025-08-15T08:43:13.950Z",
+    "active": true
+  },
+  {
+    "id": "sess_1755161394411_6frff38ag",
+    "userId": "baskan-1",
+    "createdAt": "2025-08-14T08:49:54.411Z",
+    "expiresAt": "2025-08-15T08:49:54.411Z",
+    "active": true
+  },
+  {
+    "id": "sess_1755161601348_6a0sz8igm",
+    "userId": "admin-1",
+    "createdAt": "2025-08-14T08:53:21.348Z",
+    "expiresAt": "2025-08-15T08:53:21.348Z",
+    "active": false
+  },
+  {
+    "id": "sess_1755162011184_5g6ovtbxi",
+    "userId": "admin-1",
+    "createdAt": "2025-08-14T09:00:11.184Z",
+    "expiresAt": "2025-08-15T09:00:11.184Z",
+    "active": true
+  },
+  {
+    "id": "sess_1755162103779_xm1d7e3nc",
+    "userId": "admin-1",
+    "createdAt": "2025-08-14T09:01:43.779Z",
+    "expiresAt": "2025-08-15T09:01:43.779Z",
+    "active": true
+  },
+  {
+    "id": "sess_1755162406700_e981adsdk",
+    "userId": "admin-1",
+    "createdAt": "2025-08-14T09:06:46.700Z",
+    "expiresAt": "2025-08-15T09:06:46.700Z",
+    "active": false
+  },
+  {
+    "id": "sess_1755162450961_5a7rciqwu",
+    "userId": "admin-1",
+    "createdAt": "2025-08-14T09:07:30.961Z",
+    "expiresAt": "2025-08-15T09:07:30.961Z",
+    "active": false
+  },
+  {
+    "id": "sess_1755162515576_ky1zjc4uk",
+    "userId": "baskan-1",
+    "createdAt": "2025-08-14T09:08:35.576Z",
+    "expiresAt": "2025-08-15T09:08:35.576Z",
+    "active": true
   }
 ]

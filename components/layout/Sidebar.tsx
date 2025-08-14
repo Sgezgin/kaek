@@ -1,254 +1,173 @@
+// components/layout/Sidebar.tsx için gerekli interface güncellemesi
+
 'use client'
 
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { 
-  Home, 
-  FileText, 
-  Users, 
-  Bell, 
-  Settings,
-  ChevronLeft,
-  ChevronRight,
-  File,
-  Calendar,
-  User,
-  Shield,
-  ClipboardList
-} from 'lucide-react'
-import { UserRole } from '@/lib/schemas'
-import { getMenuItemsForRole } from '@/lib/rbac'
+  HomeIcon,
+  DocumentTextIcon,
+  CalendarIcon,
+  UsersIcon,
+  BellIcon,
+  CogIcon,
+  ShieldCheckIcon,
+  FileTextIcon,
+  ClipboardDocumentListIcon
+} from '@heroicons/react/24/outline'
+import { User } from '@/lib/schemas'
+import { getRoleLabel } from '@/lib/rbac'
 import clsx from 'clsx'
 
 interface SidebarProps {
-  userRole: UserRole
-  isCollapsed?: boolean
-  onToggleCollapse?: () => void
+  user?: User | null
 }
 
-// İkon haritası
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  home: Home,
-  document: FileText,
-  users: Users,
-  bell: Bell,
-  cog: Settings,
-  file: File,
-  calendar: Calendar,
-  user: User,
-  shield: Shield,
-  clipboard: ClipboardList
-}
-
-// Menü öğeleri tanımı
-const getMenuItems = (userRole: UserRole) => {
-  const baseItems = [
-    {
-      title: 'Ana Sayfa',
-      href: '/dashboard',
-      icon: 'home',
-      roles: ['ADMIN', 'BASKAN', 'OFIS', 'UYE', 'BASVURAN']
-    }
-  ]
-
-  const roleSpecificItems: Record<UserRole, Array<{
-    title: string
-    href: string
-    icon: string
-    badge?: string
-    children?: Array<{ title: string; href: string }>
-  }>> = {
+// Rol bazlı menü öğeleri
+const getMenuItemsForRole = (role: string) => {
+  const menuItems = {
     BASVURAN: [
-      {
-        title: 'Başvurularım',
-        href: '/basvuran/basvurular',
-        icon: 'clipboard'
-      },
-      {
-        title: 'Yeni Başvuru',
-        href: '/basvuran/basvurular/yeni',
-        icon: 'document'
-      },
-      {
-        title: 'Duyurular',
-        href: '/basvuran/duyurular',
-        icon: 'bell'
-      },
-      {
-        title: 'Profil',
-        href: '/basvuran/profil',
-        icon: 'user'
-      }
+      { title: 'Ana Sayfa', href: '/dashboard', icon: HomeIcon },
+      { title: 'Başvurularım', href: '/basvuran/basvurular', icon: ClipboardDocumentListIcon },
+      { title: 'Yeni Başvuru', href: '/basvuran/basvurular/yeni', icon: DocumentTextIcon },
+      { title: 'Duyurular', href: '/basvuran/duyurular', icon: BellIcon },
+      { title: 'Profil', href: '/basvuran/profil', icon: UsersIcon }
     ],
     OFIS: [
-      {
-        title: 'Başvuru Yönetimi',
-        href: '/ofis/basvurular',
-        icon: 'clipboard'
-      },
-      {
-        title: 'Gündem Yönetimi',
-        href: '/ofis/gundemler',
-        icon: 'calendar'
-      },
-      {
-        title: 'Atama Yönetimi',
-        href: '/ofis/atamalar',
-        icon: 'users'
-      },
-      {
-        title: 'Koşullu Uygun',
-        href: '/ofis/kosullu-uygun',
-        icon: 'shield'
-      },
-      {
-        title: 'Duyuru Yönetimi',
-        href: '/ofis/duyurular',
-        icon: 'bell'
-      },
-      {
-        title: 'Belge Tanımları',
-        href: '/ofis/belge-tanimlari',
-        icon: 'file'
-      },
-      {
-        title: 'Parametreler',
-        href: '/ofis/parametreler',
-        icon: 'cog'
-      }
+      { title: 'Ana Sayfa', href: '/dashboard', icon: HomeIcon },
+      { title: 'Başvuru Yönetimi', href: '/ofis/basvurular', icon: ClipboardDocumentListIcon },
+      { title: 'Gündem Yönetimi', href: '/ofis/gundemler', icon: CalendarIcon },
+      { title: 'Atama Yönetimi', href: '/ofis/atamalar', icon: UsersIcon },
+      { title: 'Koşullu Uygun', href: '/ofis/kosullu-uygun', icon: ShieldCheckIcon },
+      { title: 'Duyuru Yönetimi', href: '/ofis/duyurular', icon: BellIcon },
+      { title: 'Belge Tanımları', href: '/ofis/belge-tanimlari', icon: FileTextIcon },
+      { title: 'Parametreler', href: '/ofis/parametreler', icon: CogIcon }
     ],
     UYE: [
-      {
-        title: 'İnceleme',
-        href: '/uye/inceleme',
-        icon: 'shield'
-      }
+      { title: 'Ana Sayfa', href: '/dashboard', icon: HomeIcon },
+      { title: 'İnceleme', href: '/uye/inceleme', icon: ShieldCheckIcon }
     ],
     BASKAN: [
-      {
-        title: 'Başkan İnceleme',
-        href: '/baskan/inceleme',
-        icon: 'shield'
-      },
-      {
-        title: 'Üye İnceleme',
-        href: '/uye/inceleme',
-        icon: 'clipboard'
-      }
+      { title: 'Ana Sayfa', href: '/dashboard', icon: HomeIcon },
+      { title: 'Başkan İnceleme', href: '/baskan/inceleme', icon: ShieldCheckIcon },
+      { title: 'Üye İnceleme', href: '/uye/inceleme', icon: ClipboardDocumentListIcon }
     ],
     ADMIN: [
-      {
-        title: 'Başvuru Yönetimi',
-        href: '/ofis/basvurular',
-        icon: 'clipboard'
-      },
-      {
-        title: 'Gündem Yönetimi',
-        href: '/ofis/gundemler',
-        icon: 'calendar'
-      },
-      {
-        title: 'Form Tanımları',
-        href: '/admin/form-tanimlari',
-        icon: 'document'
-      },
-      {
-        title: 'Roller',
-        href: '/admin/roller',
-        icon: 'users'
-      },
-      {
-        title: 'Sistem Ayarları',
-        href: '/ofis/parametreler',
-        icon: 'cog'
-      }
+      { title: 'Ana Sayfa', href: '/dashboard', icon: HomeIcon },
+      { title: 'Başvuru Yönetimi', href: '/ofis/basvurular', icon: ClipboardDocumentListIcon },
+      { title: 'Gündem Yönetimi', href: '/ofis/gundemler', icon: CalendarIcon },
+      { title: 'Form Tanımları', href: '/admin/form-tanimlari', icon: DocumentTextIcon },
+      { title: 'Roller', href: '/admin/roller', icon: UsersIcon },
+      { title: 'Sistem Ayarları', href: '/ofis/parametreler', icon: CogIcon }
     ]
   }
-
-  return [
-    ...baseItems.filter(item => item.roles.includes(userRole)),
-    ...roleSpecificItems[userRole] || []
-  ]
+  
+  return menuItems[role as keyof typeof menuItems] || []
 }
 
-export default function Sidebar({ userRole, isCollapsed = false, onToggleCollapse }: SidebarProps) {
+export default function Sidebar({ user }: SidebarProps) {
   const pathname = usePathname()
-  const menuItems = getMenuItems(userRole)
+  const [isCollapsed, setIsCollapsed] = useState(false)
+
+  // Eğer user yoksa, loading veya default göster
+  if (!user) {
+    return (
+      <div className="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg border-r border-gray-200">
+        <div className="flex flex-col h-full">
+          <div className="px-6 py-4 border-b border-gray-200">
+            <div className="flex items-center">
+              <div className="h-8 w-8 bg-primary-600 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-lg">E</span>
+              </div>
+              <div className="ml-3">
+                <h1 className="text-lg font-semibold text-gray-900">Etik Kurul</h1>
+                <p className="text-xs text-gray-500">Ege Üniversitesi</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="flex-1 px-4 py-6">
+            <div className="space-y-2">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="h-10 bg-gray-200 rounded animate-pulse"></div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  const menuItems = getMenuItemsForRole(user.role)
 
   return (
-    <div className={clsx(
-      'bg-white shadow-sm border-r border-gray-200 flex flex-col transition-all duration-300',
-      isCollapsed ? 'w-16' : 'w-64'
-    )}>
-      {/* Logo ve Toggle */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-200">
-        {!isCollapsed && (
-          <div className="flex items-center space-x-3">
-            <div className="h-8 w-8 rounded-full logo-gradient flex items-center justify-center">
-              <div className="text-white font-bold text-sm">e</div>
+    <div className="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg border-r border-gray-200">
+      <div className="flex flex-col h-full">
+        {/* Logo ve Başlık */}
+        <div className="px-6 py-4 border-b border-gray-200">
+          <div className="flex items-center">
+            <div className="h-8 w-8 bg-primary-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-lg">E</span>
             </div>
-            <div>
-              <h1 className="text-sm font-semibold text-gray-900">Etik Kurul</h1>
+            <div className="ml-3">
+              <h1 className="text-lg font-semibold text-gray-900">Etik Kurul</h1>
               <p className="text-xs text-gray-500">Ege Üniversitesi</p>
             </div>
           </div>
-        )}
-        
-        {onToggleCollapse && (
-          <button
-            onClick={onToggleCollapse}
-            className="p-1 rounded-md hover:bg-gray-100 transition-colors"
-          >
-            {isCollapsed ? (
-              <ChevronRight className="h-4 w-4 text-gray-500" />
-            ) : (
-              <ChevronLeft className="h-4 w-4 text-gray-500" />
-            )}
-          </button>
-        )}
-      </div>
+        </div>
 
-      {/* Navigasyon Menüsü */}
-      <nav className="flex-1 p-4 space-y-1 custom-scrollbar overflow-y-auto">
-        {menuItems.map((item) => {
-          const IconComponent = iconMap[item.icon] || FileText
-          const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
-          
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={clsx(
-                'nav-link',
-                isActive && 'nav-link-active',
-                isCollapsed && 'justify-center'
-              )}
-              title={isCollapsed ? item.title : undefined}
-            >
-              <IconComponent className="h-5 w-5 shrink-0" />
-              {!isCollapsed && (
-                <span className="truncate">{item.title}</span>
-              )}
-              {!isCollapsed && item.badge && (
-                <span className="ml-auto bg-primary-100 text-primary-600 text-xs rounded-full px-2 py-0.5">
-                  {item.badge}
-                </span>
-              )}
-            </Link>
-          )
-        })}
-      </nav>
-
-      {/* Alt Bilgi */}
-      {!isCollapsed && (
-        <div className="p-4 border-t border-gray-200">
-          <div className="text-xs text-gray-500 text-center">
-            <p>Sistem Sürümü: v1.0.0</p>
-            <p className="mt-1">© 2024 Ege Üniversitesi</p>
+        {/* Kullanıcı Bilgisi */}
+        <div className="px-6 py-4 border-b border-gray-200">
+          <div className="flex items-center">
+            <div className="h-10 w-10 bg-primary-100 rounded-full flex items-center justify-center">
+              <span className="text-primary-600 font-medium text-sm">
+                {user.name?.charAt(0)?.toUpperCase() || 'U'}
+              </span>
+            </div>
+            <div className="ml-3">
+              <p className="text-sm font-medium text-gray-900">{user.name}</p>
+              <p className="text-xs text-gray-500">{getRoleLabel(user.role)}</p>
+            </div>
           </div>
         </div>
-      )}
+
+        {/* Menü Öğeleri */}
+        <nav className="flex-1 px-4 py-6">
+          <div className="space-y-2">
+            {menuItems.map((item) => {
+              const isActive = pathname === item.href
+              const Icon = item.icon
+              
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={clsx(
+                    'flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors',
+                    isActive
+                      ? 'bg-primary-100 text-primary-700 border-r-2 border-primary-700'
+                      : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                  )}
+                >
+                  <Icon className="h-5 w-5 mr-3" />
+                  {item.title}
+                </Link>
+              )
+            })}
+          </div>
+        </nav>
+
+        {/* Footer */}
+        <div className="px-6 py-4 border-t border-gray-200">
+          <p className="text-xs text-gray-500">
+            Sistem Sürümü: v1.0.0
+          </p>
+          <p className="text-xs text-gray-500">
+            © 2024 Ege Üniversitesi
+          </p>
+        </div>
+      </div>
     </div>
   )
 }

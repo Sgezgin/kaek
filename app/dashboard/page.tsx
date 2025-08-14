@@ -438,7 +438,7 @@ export default function DashboardPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <DocumentTextIcon className="w-6 h-6 text-blue-600" />
+                {/* <DocumentTextIcon className="w-6 h-6 text-blue-600" /> */}
               </div>
               <h3 className="font-medium text-gray-900 mb-2">1. Başvuru Oluştur</h3>
               <p className="text-sm text-gray-600">Araştırma türünüze uygun formu doldurun ve gerekli belgeleri yükleyin</p>
@@ -536,7 +536,7 @@ export default function DashboardPage() {
           {stats && stats.assignments.pending > 0 ? (
             <div className="flex items-center justify-between p-4 bg-yellow-50 rounded-lg border border-yellow-200">
               <div className="flex items-center">
-                <ExclamationTriangleIcon className="h-5 w-5 text-yellow-600 mr-3" />
+                {/* <ExclamationTriangleIcon className="h-5 w-5 text-yellow-600 mr-3" /> */}
                 <div>
                   <p className="text-sm font-medium text-gray-900">
                     {stats.assignments.pending} başvuru incelemenizi bekliyor
