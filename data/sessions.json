@@ -1,0 +1,37 @@
+[
+  {
+    "id": "sess_1755156701437_02s5ow5yc",
+    "userId": "admin-1",
+    "createdAt": "2025-08-14T07:31:41.437Z",
+    "expiresAt": "2025-08-15T07:31:41.437Z",
+    "active": true
+  },
+  {
+    "id": "sess_1755156751827_8gjld79i8",
+    "userId": "admin-1",
+    "createdAt": "2025-08-14T07:32:31.827Z",
+    "expiresAt": "2025-08-15T07:32:31.827Z",
+    "active": false
+  },
+  {
+    "id": "sess_1755157420944_cvwjlsti4",
+    "userId": "ofis-1",
+    "createdAt": "2025-08-14T07:43:40.944Z",
+    "expiresAt": "2025-08-15T07:43:40.944Z",
+    "active": false
+  },
+  {
+    "id": "sess_1755157438002_5q08lu1ea",
+    "userId": "uye-1",
+    "createdAt": "2025-08-14T07:43:58.003Z",
+    "expiresAt": "2025-08-15T07:43:58.002Z",
+    "active": true
+  },
+  {
+    "id": "sess_1755157550838_lc7cs9aux",
+    "userId": "admin-1",
+    "createdAt": "2025-08-14T07:45:50.838Z",
+    "expiresAt": "2025-08-15T07:45:50.838Z",
+    "active": false
+  }
+]

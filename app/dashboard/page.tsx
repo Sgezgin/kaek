@@ -7,12 +7,14 @@ import {
   ClockIcon, 
   CheckCircleIcon, 
   ExclamationTriangleIcon,
-  UserGroupIcon,
+  
   CalendarIcon,
+  GroupIcon,
   BellIcon,
   TrendingUpIcon
 } from 'lucide-react'
 import { User, Application, Announcement } from '@/lib/schemas'
+import StatusBadge from '@/components/common/StatusBadge'
 import { getRoleLabel } from '@/lib/rbac'
 
 interface DashboardStats {
@@ -194,7 +196,7 @@ export default function DashboardPage() {
         return [
           { title: 'Başvuru Yönetimi', href: '/ofis/basvurular', icon: DocumentTextIcon, color: 'blue', description: 'Gelen başvuruları inceleyin' },
           { title: 'Gündem Oluştur', href: '/ofis/gundemler/yeni', icon: CalendarIcon, color: 'green', description: 'Kurul toplantısı gündemi hazırlayın' },
-          { title: 'Üye Ataması', href: '/ofis/atamalar', icon: UserGroupIcon, color: 'purple', description: 'Başvuruları kurul üyelerine atayın' }
+          { title: 'Üye Ataması', href: '/ofis/atamalar', icon: GroupIcon, color: 'purple', description: 'Başvuruları kurul üyelerine atayın' }
         ]
       case 'UYE':
       case 'BASKAN':
@@ -206,7 +208,7 @@ export default function DashboardPage() {
         return [
           { title: 'Form Tanımları', href: '/admin/form-tanimlari', icon: DocumentTextIcon, color: 'blue', description: 'Dinamik formları yönetin' },
           { title: 'Sistem Ayarları', href: '/ofis/parametreler', icon: CheckCircleIcon, color: 'green', description: 'Sistem parametrelerini ayarlayın' },
-          { title: 'Kullanıcı Yönetimi', href: '/admin/roller', icon: UserGroupIcon, color: 'purple', description: 'Kullanıcı rollerini yönetin' }
+          { title: 'Kullanıcı Yönetimi', href: '/admin/roller', icon: GroupIcon, color: 'purple', description: 'Kullanıcı rollerini yönetin' }
         ]
       default:
         return []
@@ -283,7 +285,7 @@ export default function DashboardPage() {
           <div className="card hover:shadow-md transition-shadow">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <DocumentTextIcon className="h-8 w-8 text-blue-600" />
+                {/* <DocumentTextIcon className="h-8 w-8 text-blue-600" /> */}
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Toplam Başvuru</p>
@@ -322,7 +324,7 @@ export default function DashboardPage() {
           <div className="card hover:shadow-md transition-shadow">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <ExclamationTriangleIcon className="h-8 w-8 text-red-600" />
+                {/* <ExclamationTriangleIcon className="h-8 w-8 text-red-600" /> */}
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-500">Düzeltme Gereken</p>
@@ -346,7 +348,7 @@ export default function DashboardPage() {
                 href={action.href}
                 className="flex items-start p-4 rounded-lg border border-gray-200 hover:border-primary-300 hover:bg-primary-50 transition-colors group"
               >
-                <action.icon className={`h-5 w-5 text-${action.color}-600 mt-0.5 mr-3 group-hover:text-primary-600`} />
+                {/* <action.icon className={`h-5 w-5 text-${action.color}-600 mt-0.5 mr-3 group-hover:text-primary-600`} /> */}
                 <div>
                   <span className="text-sm font-medium text-gray-900 group-hover:text-primary-900">{action.title}</span>
                   {action.description && (

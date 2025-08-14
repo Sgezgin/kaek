@@ -1,0 +1,15 @@
+[
+  {
+    "id": "ann-1",
+    "category": "Genel",
+    "title": "Sisteme Hoş Geldiniz",
+    "content": "Ege Üniversitesi Klinik Araştırmalar Etik Kurulu sistemine hoş geldiniz.",
+    "audience": [
+      "BASVURAN"
+    ],
+    "createdBy": "ofis-1",
+    "createdAt": "2025-08-14T07:31:41.419Z",
+    "active": true,
+    "priority": "HIGH"
+  }
+]

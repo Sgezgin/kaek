@@ -240,9 +240,18 @@ export const readFormVersion = async (
 };
 
 /**
- * Demo veri oluştur
+ * Demo veri oluştur ve sistem başlangıcında çalıştır
  */
 export const createDemoData = async (): Promise<void> => {
+  // Önce mevcut kullanıcıları kontrol et
+  const existingUsers = await readDataFile(DATA_FILES.USERS);
+  if (existingUsers.length > 0) {
+    console.log('Demo veriler zaten mevcut, tekrar oluşturulmayacak');
+    return;
+  }
+
+  console.log('Demo veriler oluşturuluyor...');
+
   const demoUsers = [
     {
       id: 'admin-1',
@@ -326,6 +335,8 @@ export const createDemoData = async (): Promise<void> => {
   await writeDataFile(DATA_FILES.DOCUMENT_TYPES, []);
   await writeDataFile(DATA_FILES.LOGS, []);
   await writeDataFile(DATA_FILES.NOTIFICATIONS, []);
+
+  console.log('Demo veriler başarıyla oluşturuldu');
 };
 
 /**
@@ -343,5 +354,17 @@ export const clearAllData = async (): Promise<void> => {
     Object.keys(localStorage)
       .filter(key => key.startsWith('ege_ethics_'))
       .forEach(key => localStorage.removeItem(key));
+  }
+};
+
+/**
+ * Demo verilerin var olup olmadığını kontrol et ve yoksa oluştur
+ */
+export const initializeData = async (): Promise<void> => {
+  try {
+    await ensureDataDirectories();
+    await createDemoData();
+  } catch (error) {
+    console.error('Veri başlatma hatası:', error);
   }
 };

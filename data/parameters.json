@@ -1,0 +1,27 @@
+[
+  {
+    "allowedFileTypes": [
+      "pdf",
+      "doc",
+      "docx",
+      "xls",
+      "xlsx",
+      "jpg",
+      "jpeg",
+      "png"
+    ],
+    "maxFileSizeMb": 10,
+    "kvkkText": "Kişisel verilerinizin işlenmesi ve korunması hakkında bilgilendirme metni...",
+    "virtualPOS": {
+      "enabled": false
+    },
+    "emailSettings": {
+      "enabled": true,
+      "fromAddress": "etik-kurul@ege.edu.tr"
+    },
+    "systemMaintenance": {
+      "enabled": false,
+      "message": ""
+    }
+  }
+]

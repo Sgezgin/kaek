@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
-import { readDataFile, addRecord } from '@/lib/storage'
+import { readDataFile, addRecord, initializeData } from '@/lib/storage'
 import { DATA_FILES } from '@/lib/storage'
 import { User, Session } from '@/lib/schemas'
 import { generateSessionId } from '@/lib/ids'
@@ -16,6 +16,9 @@ const DEMO_PASSWORDS: Record<string, string> = {
 
 export async function POST(request: NextRequest) {
   try {
+    // Demo verilerin var olduğundan emin ol
+    await initializeData();
+
     const { email, password } = await request.json()
     
     if (!email || !password) {
@@ -27,11 +30,15 @@ export async function POST(request: NextRequest) {
 
     // Kullanıcıyı bul
     const users = await readDataFile<User>(DATA_FILES.USERS)
+    console.log('Mevcut kullanıcılar:', users.map(u => ({ email: u.email, role: u.role })));
+    console.log('Giriş denemesi:', email);
+    
     const user = users.find(u => u.email === email && u.active)
     
     if (!user) {
+      console.log('Kullanıcı bulunamadı:', email);
       return NextResponse.json(
-        { error: 'Kullanıcı bulunamadı' },
+        { error: 'Kullanıcı bulunamadı veya hesap aktif değil' },
         { status: 401 }
       )
     }
@@ -39,6 +46,7 @@ export async function POST(request: NextRequest) {
     // Şifre kontrolü (demo için basit kontrol)
     const correctPassword = DEMO_PASSWORDS[email]
     if (!correctPassword || password !== correctPassword) {
+      console.log('Geçersiz şifre:', email, password);
       return NextResponse.json(
         { error: 'Geçersiz şifre' },
         { status: 401 }
@@ -61,7 +69,8 @@ export async function POST(request: NextRequest) {
     await addRecord(DATA_FILES.SESSIONS, session)
 
     // Cookie ayarla
-    cookies().set('session-token', sessionId, {
+    const cookieStore = await cookies()
+    cookieStore.set('session-token', sessionId, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
@@ -70,6 +79,8 @@ export async function POST(request: NextRequest) {
 
     // Kullanıcı bilgilerini döndür (şifre hariç)
     const { ...userWithoutPassword } = user
+    
+    console.log('Başarılı giriş:', user.email, user.role);
     
     return NextResponse.json({
       success: true,
@@ -92,6 +103,9 @@ export async function POST(request: NextRequest) {
 // Mevcut oturumu kontrol et
 export async function GET(request: NextRequest) {
   try {
+    // Demo verilerin var olduğundan emin ol
+    await initializeData();
+
     const sessionToken = request.cookies.get('session-token')?.value
     
     if (!sessionToken) {

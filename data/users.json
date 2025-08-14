@@ -1,0 +1,47 @@
+[
+  {
+    "id": "admin-1",
+    "email": "admin@demo.tr",
+    "name": "Sistem Yöneticisi",
+    "role": "ADMIN",
+    "organization": "Ege Üniversitesi",
+    "createdAt": "2025-08-14T07:31:41.419Z",
+    "active": true
+  },
+  {
+    "id": "ofis-1",
+    "email": "ofis@demo.tr",
+    "name": "Ofis Personeli",
+    "role": "OFIS",
+    "organization": "Ege Üniversitesi",
+    "createdAt": "2025-08-14T07:31:41.419Z",
+    "active": true
+  },
+  {
+    "id": "baskan-1",
+    "email": "baskan@demo.tr",
+    "name": "Prof. Dr. Kurul Başkanı",
+    "role": "BASKAN",
+    "organization": "Ege Üniversitesi",
+    "createdAt": "2025-08-14T07:31:41.419Z",
+    "active": true
+  },
+  {
+    "id": "uye-1",
+    "email": "uye@demo.tr",
+    "name": "Dr. Kurul Üyesi",
+    "role": "UYE",
+    "organization": "Ege Üniversitesi",
+    "createdAt": "2025-08-14T07:31:41.419Z",
+    "active": true
+  },
+  {
+    "id": "basvuran-1",
+    "email": "basvuran@demo.tr",
+    "name": "Dr. Araştırmacı",
+    "role": "BASVURAN",
+    "organization": "Ege Üniversitesi Tıp Fakültesi",
+    "createdAt": "2025-08-14T07:31:41.419Z",
+    "active": true
+  }
+]

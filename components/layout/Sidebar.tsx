@@ -4,18 +4,18 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { 
-  HomeIcon, 
-  DocumentTextIcon, 
-  UserGroupIcon, 
-  BellIcon, 
-  CogIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  FileTextIcon,
-  CalendarIcon,
-  UserIcon,
-  ShieldCheckIcon,
-  ClipboardDocumentListIcon
+  Home, 
+  FileText, 
+  Users, 
+  Bell, 
+  Settings,
+  ChevronLeft,
+  ChevronRight,
+  File,
+  Calendar,
+  User,
+  Shield,
+  ClipboardList
 } from 'lucide-react'
 import { UserRole } from '@/lib/schemas'
 import { getMenuItemsForRole } from '@/lib/rbac'
@@ -29,16 +29,16 @@ interface SidebarProps {
 
 // İkon haritası
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  home: HomeIcon,
-  document: DocumentTextIcon,
-  users: UserGroupIcon,
-  bell: BellIcon,
-  cog: CogIcon,
-  file: FileTextIcon,
-  calendar: CalendarIcon,
-  user: UserIcon,
-  shield: ShieldCheckIcon,
-  clipboard: ClipboardDocumentListIcon
+  home: Home,
+  document: FileText,
+  users: Users,
+  bell: Bell,
+  cog: Settings,
+  file: File,
+  calendar: Calendar,
+  user: User,
+  shield: Shield,
+  clipboard: ClipboardList
 }
 
 // Menü öğeleri tanımı
@@ -201,9 +201,9 @@ export default function Sidebar({ userRole, isCollapsed = false, onToggleCollaps
             className="p-1 rounded-md hover:bg-gray-100 transition-colors"
           >
             {isCollapsed ? (
-              <ChevronRightIcon className="h-4 w-4 text-gray-500" />
+              <ChevronRight className="h-4 w-4 text-gray-500" />
             ) : (
-              <ChevronLeftIcon className="h-4 w-4 text-gray-500" />
+              <ChevronLeft className="h-4 w-4 text-gray-500" />
             )}
           </button>
         )}
@@ -212,7 +212,7 @@ export default function Sidebar({ userRole, isCollapsed = false, onToggleCollaps
       {/* Navigasyon Menüsü */}
       <nav className="flex-1 p-4 space-y-1 custom-scrollbar overflow-y-auto">
         {menuItems.map((item) => {
-          const IconComponent = iconMap[item.icon] || DocumentTextIcon
+          const IconComponent = iconMap[item.icon] || FileText
           const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
           
           return (

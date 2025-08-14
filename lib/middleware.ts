@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { hasPageAccess } from './lib/rbac';
-import { UserRole } from './lib/schemas';
+import { hasPageAccess } from '@/lib/rbac';
+import { UserRole } from '@/lib/schemas';
+import { readDataFile, initializeData } from '@/lib/storage';
+import { DATA_FILES } from '@/lib/storage';
 
 // Korumalı rotalar
 const PROTECTED_ROUTES = [
@@ -22,24 +24,38 @@ const PUBLIC_ROUTES = [
 ];
 
 /**
- * Oturum kontrolü (mock)
+ * Oturum kontrolü
  */
 async function validateSession(sessionToken?: string): Promise<{ userId: string; role: UserRole } | null> {
   if (!sessionToken) return null;
   
   try {
-    // Gerçek uygulamada bu JWT decode veya veritabanı sorgusu olurdu
-    // Mock için basit bir kontrol yapıyoruz
-    const mockSessions: Record<string, { userId: string; role: UserRole }> = {
-      'admin-session': { userId: 'admin-1', role: 'ADMIN' },
-      'ofis-session': { userId: 'ofis-1', role: 'OFIS' },
-      'baskan-session': { userId: 'baskan-1', role: 'BASKAN' },
-      'uye-session': { userId: 'uye-1', role: 'UYE' },
-      'basvuran-session': { userId: 'basvuran-1', role: 'BASVURAN' }
-    };
+    // Demo verilerin mevcut olduğundan emin ol
+    await initializeData();
     
-    return mockSessions[sessionToken] || null;
+    // Oturumları kontrol et
+    const sessions = await readDataFile(DATA_FILES.SESSIONS);
+    const session = sessions.find((s: any) => s.id === sessionToken && s.active);
+    
+    if (!session) return null;
+    
+    // Oturum süresi kontrolü
+    if (new Date() > new Date(session.expiresAt)) {
+      return null;
+    }
+    
+    // Kullanıcı bilgilerini getir
+    const users = await readDataFile(DATA_FILES.USERS);
+    const user = users.find((u: any) => u.id === session.userId && u.active);
+    
+    if (!user) return null;
+    
+    return {
+      userId: user.id,
+      role: user.role
+    };
   } catch (error) {
+    console.error('Session validation error:', error);
     return null;
   }
 }
